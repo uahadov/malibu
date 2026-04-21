@@ -36,8 +36,8 @@ const Nav: React.FC = () => {
       className="fixed top-0 w-full z-50 bg-stone-950/80 backdrop-blur-lg shadow-2xl shadow-amber-900/10 transition-all duration-300"
     >
       <div className="flex justify-between items-center w-full px-4 sm:px-6 md:px-12 py-4 relative">
-        <motion.a whileHover={{ scale: 1.05 }} href="#" className="flex items-center ml-2 md:ml-[110px] lg:ml-[160px]">
-          <img src="/logo.webp" alt="Malibu Logo" className="h-16 sm:h-20 md:h-24 lg:h-32 w-auto object-contain drop-shadow-md" />
+        <motion.a whileHover={{ scale: 1.05 }} href="#" className="flex items-center">
+          <img src="/logo.webp" alt="Malibu Logo" className="h-[75px] sm:h-[85px] md:h-[64px] lg:h-[72px] w-auto object-contain drop-shadow-md origin-left md:pl-4 lg:pl-6" />
         </motion.a>
 
         {/* Desktop Nav */}
@@ -118,20 +118,20 @@ const Nav: React.FC = () => {
             <nav className="flex flex-col items-center py-6 space-y-6">
               <a href="#hero" onClick={(e) => {
                 e.preventDefault();
-                document.getElementById('hero')?.scrollIntoView({ behavior: 'smooth' });
                 closeMenu();
+                setTimeout(() => document.getElementById('hero')?.scrollIntoView({ behavior: 'smooth' }), 300);
               }} className="text-stone-300 hover:text-primary transition-colors text-lg">Главная</a>
               
               <a href="#about" onClick={(e) => {
                 e.preventDefault();
-                document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' });
                 closeMenu();
+                setTimeout(() => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' }), 300);
               }} className="text-stone-300 hover:text-primary transition-colors text-lg">О нас</a>
               
               <a href="#menu" onClick={(e) => {
                 e.preventDefault();
-                document.getElementById('menu')?.scrollIntoView({ behavior: 'smooth' });
                 closeMenu();
+                setTimeout(() => document.getElementById('menu')?.scrollIntoView({ behavior: 'smooth' }), 300);
               }} className="text-stone-300 hover:text-primary transition-colors text-lg">Меню</a>
             </nav>
           </motion.div>
