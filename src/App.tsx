@@ -36,8 +36,8 @@ const Nav: React.FC = () => {
       className="fixed top-0 w-full z-50 bg-stone-950/80 backdrop-blur-lg shadow-2xl shadow-amber-900/10 transition-all duration-300"
     >
       <div className="flex justify-between items-center w-full px-4 sm:px-6 md:px-12 py-4 relative">
-        <motion.a whileHover={{ scale: 1.05 }} href="#" className="flex items-center md:ml-10 lg:ml-16">
-          <img src="/logo.webp" alt="Malibu Logo" className="h-10 sm:h-12 md:h-16 object-contain drop-shadow-md" width="128" height="64" />
+        <motion.a whileHover={{ scale: 1.05 }} href="#" className="flex items-center md:ml-14 lg:ml-24">
+          <img src="/logo.webp" alt="Malibu Logo" className="h-12 sm:h-14 md:h-20 lg:h-24 object-contain drop-shadow-md" width="160" height="80" />
         </motion.a>
 
         {/* Desktop Nav */}
@@ -51,6 +51,7 @@ const Nav: React.FC = () => {
           {/* Contact Dropdown Integration */}
           <div className="relative" onMouseEnter={() => setIsContactOpen(true)} onMouseLeave={() => setIsContactOpen(false)}>
             <motion.button 
+              onClick={() => setIsContactOpen(!isContactOpen)}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               aria-label="Связаться с нами"
@@ -115,9 +116,9 @@ const Nav: React.FC = () => {
             className="md:hidden bg-stone-950/95 border-t border-white/5 overflow-hidden backdrop-blur-xl"
           >
             <nav className="flex flex-col items-center py-6 space-y-6">
-              <a onClick={closeMenu} className="text-stone-300 hover:text-primary transition-colors text-lg" href="#hero">Главная</a>
-              <a onClick={closeMenu} className="text-stone-300 hover:text-primary transition-colors text-lg" href="#about">О нас</a>
-              <a onClick={closeMenu} className="text-stone-300 hover:text-primary transition-colors text-lg" href="#menu">Меню</a>
+              <a onClick={() => setTimeout(closeMenu, 150)} className="text-stone-300 hover:text-primary transition-colors text-lg" href="#hero">Главная</a>
+              <a onClick={() => setTimeout(closeMenu, 150)} className="text-stone-300 hover:text-primary transition-colors text-lg" href="#about">О нас</a>
+              <a onClick={() => setTimeout(closeMenu, 150)} className="text-stone-300 hover:text-primary transition-colors text-lg" href="#menu">Меню</a>
             </nav>
           </motion.div>
         )}
