@@ -367,8 +367,8 @@ const Footer: React.FC = () => (
   >
     <div className="flex flex-col md:flex-row justify-between items-start gap-12 max-w-7xl mx-auto mb-16">
       <div className="flex-1">
-        <a href="#" className="inline-block mb-6 relative">
-          <img src="/logo.webp" alt="Malibu Logo" className="h-[60px] sm:h-[70px] md:h-[80px] w-auto object-contain drop-shadow-md origin-left hover:scale-105 transition-transform" loading="lazy" />
+        <a href="#" className="inline-block mb-6 relative -ml-4 md:-ml-8 lg:-ml-10">
+          <img src="/logo.webp" alt="Malibu Logo" className="h-[60px] sm:h-[70px] md:h-[80px] w-auto object-contain object-left drop-shadow-md origin-left hover:scale-105 transition-transform" loading="lazy" />
         </a>
         <p className="text-stone-400 max-w-sm mb-6 leading-relaxed">
           © 2026 Malibu Karaoke Bar. Тропическая ночь ждет вас в каждом звуке.
