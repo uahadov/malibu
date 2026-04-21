@@ -126,18 +126,7 @@ const Nav: React.FC = () => {
   );
 };
 
-const heroVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { staggerChildren: 0.2, delayChildren: 0.3 }
-  }
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 30 },
-  visible: { opacity: 1, y: 0, transition: { type: "spring" as const, stiffness: 100 } }
-};
+// Removed Framer Motion variants for Hero to use CSS instead for instant LCP
 
 const Hero = () => (
   <section id="hero" className="relative min-h-[90vh] flex items-center justify-center px-6 py-20 overflow-hidden">
@@ -155,35 +144,29 @@ const Hero = () => (
       <div className="absolute inset-0 bg-gradient-to-t from-surface via-transparent to-transparent pointer-events-none"></div>
     </div>
 
-    <motion.div
-      variants={heroVariants}
-      initial="hidden"
-      animate="visible"
-      className="relative z-10 text-center max-w-4xl mx-auto flex flex-col items-center mt-12"
-    >
-      <motion.span variants={itemVariants} className="text-primary font-body uppercase tracking-[0.3em] text-sm mb-6 opacity-90">ОТКРЫТИЕ СЕЗОНА</motion.span>
-      <motion.h1 variants={itemVariants} className="font-headline text-5xl md:text-7xl lg:text-8xl text-on-surface mb-6 tracking-tight leading-[1.1]">
+    <div className="relative z-10 text-center max-w-4xl mx-auto flex flex-col items-center mt-12">
+      <span className="text-primary font-body uppercase tracking-[0.3em] text-sm mb-6 opacity-0 animate-fade-in-up" style={{ animationDelay: '100ms' }}>ОТКРЫТИЕ СЕЗОНА</span>
+      <h1 className="font-headline text-5xl md:text-7xl lg:text-8xl text-on-surface mb-6 tracking-tight leading-[1.1] opacity-0 animate-fade-in-up" style={{ animationDelay: '200ms' }}>
         Караоке-бар <br />
         <span className="text-primary italic font-light">с атмосферой вечера</span>
-      </motion.h1>
-      <motion.p variants={itemVariants} className="text-on-surface-variant text-lg md:text-xl max-w-2xl mb-12 font-light leading-relaxed">
+      </h1>
+      <p className="text-on-surface-variant text-lg md:text-xl max-w-2xl mb-12 font-light leading-relaxed opacity-0 animate-fade-in-up" style={{ animationDelay: '300ms' }}>
         Профессиональный звук, авторские коктейли и стильный интерьер. Погрузитесь в магию вечера и насладитесь отдыхом в кругу друзей.
-      </motion.p>
-      <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-6 justify-center w-full sm:w-auto">
-        <motion.a whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} href="#menu" className="bg-primary hover:bg-primary-container text-on-primary font-semibold px-8 py-4 rounded-xl transition-colors text-lg shadow-lg shadow-primary/20 text-center">
+      </p>
+      <div className="flex flex-col sm:flex-row gap-6 justify-center w-full sm:w-auto opacity-0 animate-fade-in-up" style={{ animationDelay: '400ms' }}>
+        <a href="#menu" className="bg-primary hover:bg-primary-container text-on-primary font-semibold px-8 py-4 rounded-xl transition-all duration-300 hover:scale-105 active:scale-95 text-lg shadow-lg shadow-primary/20 text-center">
           Посмотреть меню
-        </motion.a>
-        <motion.a
-          whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
+        </a>
+        <a
           href="https://wa.me/79220898090?text=Здравствуйте! Я хочу забронировать столик."
           target="_blank"
           rel="noopener noreferrer"
-          className="glass-panel text-primary border border-primary/30 hover:bg-surface-bright/80 px-8 py-4 rounded-xl transition-colors text-lg flex items-center justify-center gap-2"
+          className="glass-panel text-primary border border-primary/30 hover:bg-surface-bright/80 px-8 py-4 rounded-xl transition-all duration-300 hover:scale-105 active:scale-95 text-lg flex items-center justify-center gap-2"
         >
           Забронировать столик
-        </motion.a>
-      </motion.div>
-    </motion.div>
+        </a>
+      </div>
+    </div>
   </section>
 );
 
@@ -211,7 +194,7 @@ const BentoGrid = () => (
           <img
             alt="Exotic tropical cocktail"
             className="absolute inset-0 w-full h-full object-cover opacity-60 transition-transform duration-700 group-hover:scale-105"
-            src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?q=80&w=800&auto=format&fit=crop&fm=webp"
+            src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?q=80&w=600&auto=format&fit=crop&fm=webp"
             referrerPolicy="no-referrer"
             loading="lazy"
             width="800"
@@ -259,7 +242,7 @@ const BentoGrid = () => (
           <img
             alt="Bar Atmosphere"
             className="absolute inset-0 w-full h-full object-cover opacity-50 transition-transform duration-700 group-hover:scale-105"
-            src="https://images.unsplash.com/photo-1572116469696-31de0f17cc34?q=80&w=800&auto=format&fit=crop&fm=webp"
+            src="https://images.unsplash.com/photo-1572116469696-31de0f17cc34?q=80&w=400&auto=format&fit=crop&fm=webp"
             referrerPolicy="no-referrer"
             loading="lazy"
             width="800"
