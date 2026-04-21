@@ -57,7 +57,7 @@ const Nav: React.FC = () => {
               aria-expanded={isContactOpen}
               className="flex bg-primary hover:bg-primary-container text-on-primary font-medium px-4 md:px-6 py-2 sm:py-2.5 rounded-xl transition-colors items-center gap-2 ambient-shadow-primary text-sm md:text-base whitespace-nowrap"
             >
-              <Phone size={18} className="animate-pulse" /> СВЯЗЬ
+              <Phone size={18} /> СВЯЗЬ
             </motion.button>
 
             <AnimatePresence>
@@ -143,17 +143,14 @@ const Hero = () => (
   <section id="hero" className="relative min-h-[90vh] flex items-center justify-center px-6 py-20 overflow-hidden">
     <div className="absolute inset-0 z-0 bg-[#0a0a0a]">
       {/* Absolute exact image from your screenshot, full cover */}
-      <motion.img
-        initial={{ scale: 1.1, opacity: 0 }}
-        animate={{ scale: 1, opacity: 0.5 }}
-        transition={{ duration: 2, ease: "easeOut" }}
-        alt="Tropical sunset beach bar"
-        className="w-full h-full object-cover"
-        src="/back2.webp"
-        fetchPriority="high"
-        width="1920"
-        height="1080"
-      />
+        <img
+          alt="Tropical sunset beach bar"
+          className="w-full h-full object-cover hero-bg-fade"
+          src="/back2.webp"
+          fetchPriority="high"
+          width="1920"
+          height="1080"
+        />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_20%,#0a0a0a_90%)] pointer-events-none"></div>
       <div className="absolute inset-0 bg-gradient-to-t from-surface via-transparent to-transparent pointer-events-none"></div>
     </div>

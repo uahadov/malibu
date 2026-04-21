@@ -45,6 +45,17 @@
     pointer-events: none;
   }
 
+  /* CSS-only hero animation — runs on GPU, never blocks main thread */
+  @keyframes heroFade {
+    from { opacity: 0; transform: scale(1.08); }
+    to   { opacity: 0.5; transform: scale(1); }
+  }
+
+  .hero-bg-fade {
+    animation: heroFade 2s ease-out forwards;
+    will-change: opacity, transform;
+  }
+
   .glass-panel {
     @apply bg-surface-bright/60 backdrop-blur-xl border border-white/10;
   }

@@ -5,12 +5,15 @@ import { defineConfig } from 'vite';
 export default defineConfig({
   plugins: [react(), tailwindcss()],
   build: {
-    // Split vendor chunks for better caching
+    // Single optimized bundle — fewer HTTP requests = faster on all connections
+    cssCodeSplit: false,
     rollupOptions: {
       output: {
-        manualChunks: {
-          'react-vendor': ['react', 'react-dom'],
-          'motion-vendor': ['motion/react'],
+        // Keep vendor code separate for caching, but don't over-split
+        manualChunks(id) {
+          if (id.includes('node_modules')) {
+            return 'vendor';
+          }
         },
       },
     },
