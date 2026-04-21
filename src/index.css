@@ -1,0 +1,60 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600&family=Noto+Serif:ital,wght@0,400;0,700;1,400&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-headline: "Noto Serif", serif;
+  --font-body: "Manrope", sans-serif;
+
+  --color-primary: #f6bc65;
+  --color-primary-container: #c5913e;
+  --color-on-primary: #442b00;
+  
+  --color-secondary: #b3cdb4;
+  --color-secondary-container: #364c38;
+  --color-on-secondary: #203523;
+
+  --color-surface: #121412;
+  --color-surface-bright: #383a37;
+  --color-surface-dim: #121412;
+  --color-surface-variant: #333533;
+  --color-on-surface: #e2e3df;
+  --color-on-surface-variant: #d4c4b2;
+
+  --color-surface-container: #1e201e;
+  --color-surface-container-low: #1a1c1a;
+  --color-surface-container-lowest: #0d0f0d;
+  --color-surface-container-high: #292a28;
+  --color-surface-container-highest: #333533;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-surface text-on-surface font-body antialiased selection:bg-primary/30;
+  }
+}
+
+@layer utilities {
+  .wood-texture-overlay {
+    position: absolute;
+    inset: 0;
+    background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><filter id="noiseFilter"><feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23noiseFilter)"/></svg>');
+    opacity: 0.03;
+    mix-blend-mode: multiply;
+    pointer-events: none;
+  }
+
+  .glass-panel {
+    @apply bg-surface-bright/60 backdrop-blur-xl border border-white/10;
+  }
+
+  .ambient-shadow-primary {
+    box-shadow: 0 0 40px rgba(246, 188, 101, 0.06);
+  }
+
+  .ghost-border {
+    @apply border border-white/5;
+  }
+}
