@@ -116,9 +116,23 @@ const Nav: React.FC = () => {
             className="md:hidden bg-stone-950/95 border-t border-white/5 overflow-hidden backdrop-blur-xl"
           >
             <nav className="flex flex-col items-center py-6 space-y-6">
-              <a onClick={() => setTimeout(closeMenu, 150)} className="text-stone-300 hover:text-primary transition-colors text-lg" href="#hero">Главная</a>
-              <a onClick={() => setTimeout(closeMenu, 150)} className="text-stone-300 hover:text-primary transition-colors text-lg" href="#about">О нас</a>
-              <a onClick={() => setTimeout(closeMenu, 150)} className="text-stone-300 hover:text-primary transition-colors text-lg" href="#menu">Меню</a>
+              <a href="#hero" onClick={(e) => {
+                e.preventDefault();
+                document.getElementById('hero')?.scrollIntoView({ behavior: 'smooth' });
+                closeMenu();
+              }} className="text-stone-300 hover:text-primary transition-colors text-lg">Главная</a>
+              
+              <a href="#about" onClick={(e) => {
+                e.preventDefault();
+                document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' });
+                closeMenu();
+              }} className="text-stone-300 hover:text-primary transition-colors text-lg">О нас</a>
+              
+              <a href="#menu" onClick={(e) => {
+                e.preventDefault();
+                document.getElementById('menu')?.scrollIntoView({ behavior: 'smooth' });
+                closeMenu();
+              }} className="text-stone-300 hover:text-primary transition-colors text-lg">Меню</a>
             </nav>
           </motion.div>
         )}
