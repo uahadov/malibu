@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "motion/react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   MapPin,
   Phone,
@@ -10,7 +10,9 @@ import {
   Mic,
   Menu,
   X,
-  ShoppingBag
+  ShoppingBag,
+  Sun,
+  Moon
 } from "lucide-react";
 
 // --- TypeScript Interfaces ---
@@ -33,7 +35,7 @@ const Nav: React.FC = () => {
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ type: "spring", stiffness: 100, damping: 20 }}
-      className="fixed top-0 w-full z-50 bg-stone-950/80 backdrop-blur-lg shadow-2xl shadow-amber-900/10 transition-all duration-300"
+      className="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-lg shadow-2xl shadow-amber-900/10 transition-all duration-300"
     >
       <div className="flex justify-between items-center w-full px-4 sm:px-6 md:px-12 py-4 relative">
         <motion.a whileHover={{ scale: 1.05 }} href="#" className="flex items-center">
@@ -42,9 +44,9 @@ const Nav: React.FC = () => {
 
         {/* Desktop Nav */}
         <nav className="hidden md:flex flex-1 justify-center space-x-8 absolute left-1/2 -translate-x-1/2">
-          <a className="text-stone-300 hover:text-primary transition-all duration-300 text-sm tracking-wide" href="#hero">Главная</a>
-          <a className="text-stone-300 hover:text-primary transition-all duration-300 text-sm tracking-wide" href="#about">О нас</a>
-          <a className="text-stone-300 hover:text-primary transition-all duration-300 text-sm tracking-wide" href="#menu">Меню</a>
+          <a className="text-on-surface-variant hover:text-primary transition-all duration-300 text-sm tracking-wide" href="#hero">Главная</a>
+          <a className="text-on-surface-variant hover:text-primary transition-all duration-300 text-sm tracking-wide" href="#about">О нас</a>
+          <a className="text-on-surface-variant hover:text-primary transition-all duration-300 text-sm tracking-wide" href="#menu">Меню</a>
         </nav>
 
         <div className="flex items-center gap-2 sm:gap-4">
@@ -68,7 +70,7 @@ const Nav: React.FC = () => {
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: 10, scale: 0.95 }}
                   transition={{ duration: 0.2, type: "spring", stiffness: 200 }}
-                  className="absolute right-0 mt-3 w-[260px] bg-stone-950/95 backdrop-blur-2xl border border-white/10 rounded-2xl p-2 shadow-2xl flex flex-col gap-1 z-[60]"
+                  className="absolute right-0 mt-3 w-[260px] bg-surface/95 backdrop-blur-2xl border border-white/10 rounded-2xl p-2 shadow-2xl flex flex-col gap-1 z-[60]"
                 >
                   <a href="https://wa.me/79220898090?text=Здравствуйте! Я хочу забронировать столик." target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 p-3 rounded-xl hover:bg-white/10 transition-colors group">
                     <div className="w-10 h-10 shrink-0 rounded-full bg-primary/10 text-primary flex items-center justify-center group-hover:scale-110 group-hover:bg-primary/20 transition-all">
@@ -76,7 +78,7 @@ const Nav: React.FC = () => {
                     </div>
                     <div className="flex flex-col">
                       <span className="text-on-surface text-sm font-medium">Резерв столика</span>
-                      <span className="text-stone-400 text-xs mt-0.5">Ежедневно с 11:00</span>
+                      <span className="text-on-surface-variant text-xs mt-0.5">Ежедневно с 11:00</span>
                     </div>
                   </a>
                   
@@ -86,7 +88,7 @@ const Nav: React.FC = () => {
                     </div>
                     <div className="flex flex-col">
                       <span className="text-on-surface text-sm font-medium">Заказ & Доставка</span>
-                      <span className="text-stone-400 text-xs mt-0.5">Напишите нам для заказа</span>
+                      <span className="text-on-surface-variant text-xs mt-0.5">Напишите нам для заказа</span>
                     </div>
                   </a>
                 </motion.div>
@@ -113,26 +115,26 @@ const Nav: React.FC = () => {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-stone-950/95 border-t border-white/5 overflow-hidden backdrop-blur-xl"
+            className="md:hidden bg-surface/95 border-t border-white/5 overflow-hidden backdrop-blur-xl"
           >
             <nav className="flex flex-col items-center py-6 space-y-6">
               <a href="#hero" onClick={(e) => {
                 e.preventDefault();
                 closeMenu();
                 setTimeout(() => document.getElementById('hero')?.scrollIntoView({ behavior: 'smooth' }), 300);
-              }} className="text-stone-300 hover:text-primary transition-colors text-lg">Главная</a>
+              }} className="text-on-surface-variant hover:text-primary transition-colors text-lg">Главная</a>
               
               <a href="#about" onClick={(e) => {
                 e.preventDefault();
                 closeMenu();
                 setTimeout(() => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' }), 300);
-              }} className="text-stone-300 hover:text-primary transition-colors text-lg">О нас</a>
+              }} className="text-on-surface-variant hover:text-primary transition-colors text-lg">О нас</a>
               
               <a href="#menu" onClick={(e) => {
                 e.preventDefault();
                 closeMenu();
                 setTimeout(() => document.getElementById('menu')?.scrollIntoView({ behavior: 'smooth' }), 300);
-              }} className="text-stone-300 hover:text-primary transition-colors text-lg">Меню</a>
+              }} className="text-on-surface-variant hover:text-primary transition-colors text-lg">Меню</a>
             </nav>
           </motion.div>
         )}
@@ -145,7 +147,7 @@ const Nav: React.FC = () => {
 
 const Hero = () => (
   <section id="hero" className="relative min-h-[90vh] flex items-center justify-center px-6 py-20 overflow-hidden">
-    <div className="absolute inset-0 z-0 bg-[#0a0a0a]">
+    <div className="absolute inset-0 z-0 bg-surface">
       {/* Absolute exact image from your screenshot, full cover */}
         <img
           alt="Tropical sunset beach bar"
@@ -155,7 +157,7 @@ const Hero = () => (
           width="1920"
           height="1080"
         />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_20%,#0a0a0a_90%)] pointer-events-none"></div>
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_20%,var(--surface)_90%)] pointer-events-none"></div>
       <div className="absolute inset-0 bg-gradient-to-t from-surface via-transparent to-transparent pointer-events-none"></div>
     </div>
 
@@ -236,7 +238,7 @@ const BentoGrid = () => (
             width="800"
             height="600"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-surface-container-lowest/90 via-[#0a0a0a]/40 to-transparent"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-surface-container-lowest/90 via-surface/40 to-transparent"></div>
           <div className="absolute top-6 right-6 text-primary/50 z-10 drop-shadow-md">
             <motion.div whileHover={{ scale: 1.2, rotate: 5 }} transition={{ type: "spring", stiffness: 300 }}>
               <Mic size={40} strokeWidth={1.5} />
@@ -263,7 +265,7 @@ const BentoGrid = () => (
             width="800"
             height="600"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-surface-container-lowest/90 via-[#0a0a0a]/40 to-transparent"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-surface-container-lowest/90 via-surface/40 to-transparent"></div>
           <div className="absolute top-6 right-6 text-secondary/50 z-10 drop-shadow-md">
             <motion.div style={{ originX: 0.5, originY: 1 }} whileHover={{ rotate: [-5, 5, -5] }} transition={{ duration: 0.4 }}>
               <Wine size={40} strokeWidth={1.5} />
@@ -319,8 +321,7 @@ const RestaurantMenu: React.FC = () => {
             key={category}
             onClick={() => setActiveCategory(category)}
             aria-pressed={activeCategory === category}
-            className={`whitespace-nowrap pb-2 text-lg font-medium transition-all duration-300 ease-in-out
-              ${activeCategory === category ? "text-primary border-b-2 border-primary" : "text-stone-400 hover:text-stone-200"}`}
+            className={`whitespace-nowrap pb-2 text-lg font-medium transition-all duration-300 ease-in-out ${activeCategory === category ? "text-primary border-b-2 border-primary" : "text-on-surface-variant hover:text-on-surface"}`}
           >
             {category}
           </button>
@@ -363,29 +364,31 @@ const Footer: React.FC = () => (
     whileInView="visible" 
     viewport={{ once: true }} 
     variants={{ hidden: { opacity: 0 }, visible: { opacity: 1, transition: { staggerChildren: 0.2 } } }} 
-    className="w-full pt-20 pb-10 px-8 rounded-t-[32px] bg-stone-950 relative z-10"
+    className="w-full pt-20 pb-10 px-8 rounded-t-[32px] bg-surface-dim relative z-10"
   >
     <div className="flex flex-col md:flex-row justify-between items-start gap-12 max-w-7xl mx-auto mb-16">
       <div className="flex-1">
-        <a href="#" className="inline-block mb-6 relative -translate-x-6 md:-translate-x-12 lg:-translate-x-16">
-          <img src="/logo.webp" alt="Malibu Logo" className="h-[70px] md:h-[90px] w-auto object-contain object-left drop-shadow-md origin-left hover:scale-105 transition-all" loading="lazy" />
-        </a>
-        <p className="text-stone-400 max-w-sm mb-6 leading-relaxed">
+        <div className="flex justify-start mb-6">
+          <a href="#" className="-ml-[280px]">
+            <img src="/logo.webp" alt="Malibu Logo" className="h-[70px] md:h-[90px] w-auto object-contain object-left drop-shadow-md origin-left hover:scale-105 transition-all" loading="lazy" />
+          </a>
+        </div>
+        <p className="text-on-surface-variant max-w-sm mb-6 leading-relaxed">
           © 2026 Malibu Karaoke Bar. Тропическая ночь ждет вас в каждом звуке.
         </p>
         <div className="flex flex-col space-y-2">
-          <div className="flex items-center gap-2 text-stone-300 text-sm">
-            <Phone size={16} /> 
-            <span className="text-stone-500">Резерв:</span>
+          <div className="flex items-center gap-2 text-on-surface text-sm">
+            <Phone size={16} className="text-on-surface-variant" /> 
+            <span className="text-on-surface-variant">Резерв:</span>
             <a href="tel:+79220898090" className="hover:text-primary transition-colors">+7 922 089-80-90</a>
           </div>
-          <div className="flex items-center gap-2 text-stone-300 text-sm">
-            <Phone size={16} /> 
-            <span className="text-stone-500">Доставка:</span>
+          <div className="flex items-center gap-2 text-on-surface text-sm">
+            <Phone size={16} className="text-on-surface-variant" /> 
+            <span className="text-on-surface-variant">Доставка:</span>
             <a href="tel:+79642090707" className="hover:text-primary transition-colors">+7 964 209-07-07</a>
           </div>
-          <a href="https://2gis.ru/n_urengoy/firm/70000001109629339" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-stone-300 hover:text-primary transition-colors group mt-2">
-            <motion.div whileHover={{ y: -5 }} transition={{ type: "spring", stiffness: 300 }}>
+          <a href="https://2gis.ru/n_urengoy/firm/70000001109629339" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-on-surface hover:text-primary transition-colors group mt-2">
+            <motion.div whileHover={{ y: -5 }} transition={{ type: "spring", stiffness: 300 }} className="text-on-surface-variant group-hover:text-primary">
               <MapPin size={16} />
             </motion.div>
             <span>Северная коммунальная зона, 7</span>
@@ -396,10 +399,10 @@ const Footer: React.FC = () => (
       <div className="flex flex-col items-start md:items-end">
         <h4 className="font-headline text-lg text-primary mb-6">Социальные сети</h4>
         <div className="flex gap-4">
-          <motion.a whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} href="https://www.instagram.com/karaokemalibu89" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="w-12 h-12 bg-surface-container-low rounded-xl flex items-center justify-center text-stone-400 hover:bg-primary hover:text-on-primary transition-colors">
+          <motion.a whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} href="https://www.instagram.com/karaokemalibu89" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="w-12 h-12 bg-surface-container-low rounded-xl flex items-center justify-center text-on-surface-variant hover:bg-primary hover:text-on-primary transition-colors">
             <Instagram size={20} />
           </motion.a>
-          <motion.a whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} href="https://t.me/karaokemaliby89" target="_blank" rel="noopener noreferrer" aria-label="Telegram" className="w-12 h-12 bg-surface-container-low rounded-xl flex items-center justify-center text-stone-400 hover:bg-blue-500 hover:text-white transition-colors group" title="Telegram">
+          <motion.a whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} href="https://t.me/karaokemaliby89" target="_blank" rel="noopener noreferrer" aria-label="Telegram" className="w-12 h-12 bg-surface-container-low rounded-xl flex items-center justify-center text-on-surface-variant hover:bg-blue-500 hover:text-white transition-colors group" title="Telegram">
             <motion.div whileHover={{ scale: 1.1, rotate: -10 }} transition={{ type: "spring", stiffness: 300 }}>
               <Send size={20} className="-ml-1" />
             </motion.div>
@@ -412,11 +415,52 @@ const Footer: React.FC = () => (
 );
 
 export default function App() {
+  const [theme, setTheme] = useState(() => {
+    return localStorage.getItem('theme') || 'dark';
+  });
+
+  useEffect(() => {
+    if (theme === 'light') {
+      document.documentElement.classList.add('light');
+    } else {
+      document.documentElement.classList.remove('light');
+    }
+    localStorage.setItem('theme', theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    if (!document.startViewTransition) {
+      setTheme(prev => prev === 'dark' ? 'light' : 'dark');
+      return;
+    }
+    document.startViewTransition(() => {
+      setTheme(prev => prev === 'dark' ? 'light' : 'dark');
+    });
+  };
+
   return (
     <div className="relative min-h-screen bg-surface">
-      <div className="wood-texture-overlay z-0" />
+      <div className="wood-texture-overlay z-0 opacity-5" />
       <Nav />
-      <main className="relative z-10 w-full flex-grow">
+      
+      {/* Theme Toggle Button */}
+      <button 
+        onClick={toggleTheme}
+        aria-label={theme === 'dark' ? 'Светлый режим' : 'Тёмный режим'}
+        title={theme === 'dark' ? 'Светлый режим' : 'Тёмный режим'}
+        className="fixed bottom-6 right-6 z-[100] w-14 h-14 bg-surface-container hover:bg-surface-container-high text-primary rounded-full shadow-2xl flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95 ambient-shadow-primary border border-primary/20"
+      >
+        <motion.div
+          key={theme}
+          initial={{ rotate: -90, opacity: 0, scale: 0.5 }}
+          animate={{ rotate: 0, opacity: 1, scale: 1 }}
+          transition={{ type: 'spring', stiffness: 260, damping: 20 }}
+        >
+          {theme === 'dark' ? <Sun size={22} /> : <Moon size={22} />}
+        </motion.div>
+      </button>
+
+      <main className="relative z-10 w-full flex-grow transition-colors duration-500 text-on-surface">
         <Hero />
         <BentoGrid />
         <RestaurantMenu />

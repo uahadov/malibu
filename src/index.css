@@ -12,18 +12,52 @@
   --color-secondary-container: #364c38;
   --color-on-secondary: #203523;
 
-  --color-surface: #121412;
-  --color-surface-bright: #383a37;
-  --color-surface-dim: #121412;
-  --color-surface-variant: #333533;
-  --color-on-surface: #e2e3df;
-  --color-on-surface-variant: #d4c4b2;
+  --color-surface: var(--surface);
+  --color-surface-bright: var(--surface-bright);
+  --color-surface-dim: var(--surface-dim);
+  --color-surface-variant: var(--surface-variant);
+  --color-on-surface: var(--on-surface);
+  --color-on-surface-variant: var(--on-surface-variant);
 
-  --color-surface-container: #1e201e;
-  --color-surface-container-low: #1a1c1a;
-  --color-surface-container-lowest: #0d0f0d;
-  --color-surface-container-high: #292a28;
-  --color-surface-container-highest: #333533;
+  --color-surface-container: var(--surface-container);
+  --color-surface-container-low: var(--surface-container-low);
+  --color-surface-container-lowest: var(--surface-container-lowest);
+  --color-surface-container-high: var(--surface-container-high);
+  --color-surface-container-highest: var(--surface-container-highest);
+}
+
+:root {
+  color-scheme: dark;
+  --surface: #121412;
+  --surface-bright: #383a37;
+  --surface-dim: #121412;
+  --surface-variant: #333533;
+  --on-surface: #e2e3df;
+  --on-surface-variant: #d4c4b2;
+  --surface-container: #1e201e;
+  --surface-container-low: #1a1c1a;
+  --surface-container-lowest: #0d0f0d;
+  --surface-container-high: #292a28;
+  --surface-container-highest: #333533;
+}
+
+.light {
+  color-scheme: light;
+  --surface: #f6f4f0;
+  --surface-bright: #ffffff;
+  --surface-dim: #e8e4db;
+  --surface-variant: #e0dcd3;
+  --on-surface: #2d2319;
+  --on-surface-variant: #544d44;
+  --surface-container: #efece5;
+  --surface-container-low: #f3f0e9;
+  --surface-container-lowest: #f9f8f5;
+  --surface-container-high: #e6e2d8;
+  --surface-container-highest: #dcdad3;
+}
+
+.light img[src*="logo.webp"] {
+  filter: invert(1) brightness(0.2);
 }
 
 @layer base {
@@ -37,12 +71,12 @@
 
 @layer utilities {
   .wood-texture-overlay {
-    position: absolute;
+    position: fixed; /* Fixed so it doesn't need to re-render relative to scrolling content */
     inset: 0;
     background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><filter id="noiseFilter"><feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23noiseFilter)"/></svg>');
-    opacity: 0.03;
-    mix-blend-mode: multiply;
+    opacity: 0.04;
     pointer-events: none;
+    z-index: 0;
   }
 
   /* CSS-only hero animation — runs on GPU, never blocks main thread */
@@ -67,7 +101,11 @@
 
 
   .glass-panel {
-    @apply bg-surface-bright/60 backdrop-blur-xl border border-white/10;
+    @apply bg-surface-bright/60 backdrop-blur-xl border border-black/10;
+  }
+
+  .light .glass-panel {
+    @apply bg-surface-bright/80 border-black/15;
   }
 
   .ambient-shadow-primary {
@@ -75,6 +113,64 @@
   }
 
   .ghost-border {
-    @apply border border-white/5;
+    @apply border border-on-surface/8;
   }
+
+  .light .ghost-border {
+    @apply border-on-surface/15;
+  }
+
+  /* Targeted transitions to eliminate theme switching lag */
+  body, 
+  header, 
+  footer, 
+  section, 
+  .glass-panel, 
+  .ghost-border,
+  .bg-surface-container,
+  .bg-surface-container-low,
+  .bg-surface-container-high {
+    transition: background-color 350ms ease, border-color 350ms ease, box-shadow 350ms ease, color 350ms ease;
+  }
+
+  /* Text elements transition separately to avoid reflow issues if any */
+  h1, h2, h3, h4, p, span, a, button {
+    transition: color 350ms ease, background-color 300ms ease;
+  }
+
+  /* Except animations and transforms which should stay instant or handled by motion */
+  .animate-fade-in-up, [class*="motion"] {
+    transition-property: opacity, transform;
+    will-change: transform, opacity;
+  }
+
+  /* GPU Acceleration for main containers during scroll */
+  section, .glass-panel {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+  }
+}
+
+/* --- View Transitions API Styling --- */
+::view-transition-old(root) {
+  animation: 400ms cubic-bezier(0.4, 0, 0.2, 1) both fade-out;
+}
+
+::view-transition-new(root) {
+  animation: 400ms cubic-bezier(0.4, 0, 0.2, 1) both fade-in;
+}
+
+@keyframes fade-out {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Ensure background color is stable during transition */
+::view-transition {
+  background-color: var(--surface);
 }
