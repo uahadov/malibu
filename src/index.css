@@ -120,6 +120,20 @@
     @apply border-on-surface/15;
   }
 
+  /* Micro-interaction Utilities */
+  .hover-glow-primary:hover {
+    box-shadow: 0 0 20px rgba(246, 188, 101, 0.4);
+  }
+
+  @keyframes softBreath {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.02); opacity: 0.9; }
+  }
+
+  .animate-soft-breath {
+    animation: softBreath 3s ease-in-out infinite;
+  }
+
   /* Targeted transitions to eliminate theme switching lag */
   body, 
   header, 

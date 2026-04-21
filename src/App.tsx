@@ -44,9 +44,17 @@ const Nav: React.FC = () => {
 
         {/* Desktop Nav */}
         <nav className="hidden md:flex flex-1 justify-center space-x-8 absolute left-1/2 -translate-x-1/2">
-          <a className="text-on-surface-variant hover:text-primary transition-all duration-300 text-sm tracking-wide" href="#hero">Главная</a>
-          <a className="text-on-surface-variant hover:text-primary transition-all duration-300 text-sm tracking-wide" href="#about">О нас</a>
-          <a className="text-on-surface-variant hover:text-primary transition-all duration-300 text-sm tracking-wide" href="#menu">Меню</a>
+          {['Главная', 'О нас', 'Меню'].map((item, i) => (
+            <motion.a 
+              key={item}
+              whileHover={{ y: -2, color: 'var(--color-primary)' }}
+              transition={{ type: "spring", stiffness: 400, damping: 10 }}
+              className="text-on-surface-variant transition-colors duration-300 text-sm tracking-wide" 
+              href={['#hero', '#about', '#menu'][i]}
+            >
+              {item}
+            </motion.a>
+          ))}
         </nav>
 
         <div className="flex items-center gap-2 sm:gap-4">
@@ -54,11 +62,11 @@ const Nav: React.FC = () => {
           <div className="relative" onMouseEnter={() => setIsContactOpen(true)} onMouseLeave={() => setIsContactOpen(false)}>
             <motion.button 
               onClick={() => setIsContactOpen(!isContactOpen)}
-              whileHover={{ scale: 1.05 }}
+              whileHover={{ scale: 1.05, y: -2 }}
               whileTap={{ scale: 0.95 }}
               aria-label="Связаться с нами"
               aria-expanded={isContactOpen}
-              className="flex bg-primary hover:bg-primary-container text-on-primary font-medium px-4 md:px-6 py-2 sm:py-2.5 rounded-xl transition-colors items-center gap-2 ambient-shadow-primary text-sm md:text-base whitespace-nowrap"
+              className="flex bg-primary hover:bg-primary-container text-on-primary font-medium px-4 md:px-6 py-2 sm:py-2.5 rounded-xl transition-all items-center gap-2 ambient-shadow-primary text-sm md:text-base whitespace-nowrap hover-glow-primary"
             >
               <Phone size={18} /> СВЯЗЬ
             </motion.button>
@@ -171,17 +179,24 @@ const Hero = () => (
         Профессиональный звук, авторские коктейли и стильный интерьер. Погрузитесь в магию вечера и насладитесь отдыхом в кругу друзей.
       </p>
       <div className="flex flex-col sm:flex-row gap-6 justify-center w-full sm:w-auto opacity-0 animate-fade-in-up" style={{ animationDelay: '400ms' }}>
-        <a href="#menu" className="bg-primary hover:bg-primary-container text-on-primary font-semibold px-8 py-4 rounded-xl transition-all duration-300 hover:scale-105 active:scale-95 text-lg shadow-lg shadow-primary/20 text-center">
+        <motion.a 
+          whileHover={{ scale: 1.05, y: -5 }}
+          whileTap={{ scale: 0.95 }}
+          href="#menu" 
+          className="bg-primary hover:bg-primary-container text-on-primary font-bold px-8 py-4 rounded-xl transition-all duration-300 text-lg shadow-lg shadow-primary/20 text-center hover-glow-primary"
+        >
           Посмотреть меню
-        </a>
-        <a
+        </motion.a>
+        <motion.a
+          whileHover={{ scale: 1.05, y: -5, backgroundColor: 'var(--surface-bright)' }}
+          whileTap={{ scale: 0.95 }}
           href="https://wa.me/79220898090?text=Здравствуйте! Я хочу забронировать столик."
           target="_blank"
           rel="noopener noreferrer"
-          className="glass-panel text-primary border border-primary/30 hover:bg-surface-bright/80 px-8 py-4 rounded-xl transition-all duration-300 hover:scale-105 active:scale-95 text-lg flex items-center justify-center gap-2"
+          className="glass-panel text-primary border border-primary/30 px-8 py-4 rounded-xl transition-all duration-300 text-lg flex items-center justify-center gap-2"
         >
           Забронировать столик
-        </a>
+        </motion.a>
       </div>
     </div>
   </section>
@@ -336,9 +351,10 @@ const RestaurantMenu: React.FC = () => {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
-              transition={{ duration: 0.3 }}
+              whileHover={{ x: 8, backgroundColor: 'var(--surface-container)' }}
+              transition={{ duration: 0.2 }}
               key={item.id}
-              className="flex items-center gap-4 p-4 ghost-border bg-surface-container-low hover:bg-surface-container transition-colors rounded-2xl group"
+              className="flex items-center gap-4 p-4 ghost-border bg-surface-container-low transition-all rounded-2xl group cursor-pointer"
             >
               <div className="flex-shrink-0 w-20 h-20 sm:w-28 sm:h-28 overflow-hidden rounded-xl bg-surface">
                 <img src={`${item.image}&fm=webp`} alt={item.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-90" loading="lazy" width="400" height="400" />
@@ -366,17 +382,17 @@ const Footer: React.FC = () => (
     variants={{ hidden: { opacity: 0 }, visible: { opacity: 1, transition: { staggerChildren: 0.2 } } }} 
     className="w-full pt-20 pb-10 px-8 rounded-t-[32px] bg-surface-dim relative z-10"
   >
-    <div className="flex flex-col md:flex-row justify-between items-start gap-12 max-w-7xl mx-auto mb-16">
-      <div className="flex-1">
-        <div className="flex justify-start mb-6">
-          <a href="#" className="-ml-[280px]">
-            <img src="/logo.webp" alt="Malibu Logo" className="h-[70px] md:h-[90px] w-auto object-contain object-left drop-shadow-md origin-left hover:scale-105 transition-all" loading="lazy" />
+    <div className="flex flex-col md:flex-row justify-between items-center md:items-start gap-12 max-w-7xl mx-auto mb-16 text-center md:text-left">
+      <div className="flex-1 flex flex-col items-center md:items-start">
+        <div className="flex justify-center md:justify-start mb-6">
+          <a href="#" className="block">
+            <img src="/logo.webp" alt="Malibu Logo" className="h-[70px] md:h-[90px] w-auto object-contain drop-shadow-md origin-center md:origin-left hover:scale-105 transition-all" loading="lazy" />
           </a>
         </div>
         <p className="text-on-surface-variant max-w-sm mb-6 leading-relaxed">
           © 2026 Malibu Karaoke Bar. Тропическая ночь ждет вас в каждом звуке.
         </p>
-        <div className="flex flex-col space-y-2">
+        <div className="flex flex-col space-y-2 items-center md:items-start">
           <div className="flex items-center gap-2 text-on-surface text-sm">
             <Phone size={16} className="text-on-surface-variant" /> 
             <span className="text-on-surface-variant">Резерв:</span>
@@ -396,13 +412,21 @@ const Footer: React.FC = () => (
         </div>
       </div>
 
-      <div className="flex flex-col items-start md:items-end">
+      <div className="flex flex-col items-center md:items-end">
         <h4 className="font-headline text-lg text-primary mb-6">Социальные сети</h4>
         <div className="flex gap-4">
-          <motion.a whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} href="https://www.instagram.com/karaokemalibu89" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="w-12 h-12 bg-surface-container-low rounded-xl flex items-center justify-center text-on-surface-variant hover:bg-primary hover:text-on-primary transition-colors">
+          <motion.a 
+            whileHover={{ scale: 1.1, rotate: 5, backgroundColor: 'var(--color-primary)', color: 'var(--color-on-primary)' }} 
+            whileTap={{ scale: 0.9 }} 
+            href="https://www.instagram.com/karaokemalibu89" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="w-12 h-12 bg-surface-container-low rounded-xl flex items-center justify-center text-on-surface-variant transition-all hover-glow-primary"
+          >
             <Instagram size={20} />
           </motion.a>
-          <motion.a whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} href="https://t.me/karaokemaliby89" target="_blank" rel="noopener noreferrer" aria-label="Telegram" className="w-12 h-12 bg-surface-container-low rounded-xl flex items-center justify-center text-on-surface-variant hover:bg-blue-500 hover:text-white transition-colors group" title="Telegram">
+          <motion.a 
+            whileHover={{ scale: 1.1, rotate: -5, backgroundColor: '#0088cc', color: '#ffffff' }} 
+            whileTap={{ scale: 0.9 }} 
+            href="https://t.me/karaokemaliby89" target="_blank" rel="noopener noreferrer" aria-label="Telegram" className="w-12 h-12 bg-surface-container-low rounded-xl flex items-center justify-center text-on-surface-variant transition-all group" title="Telegram"
+          >
             <motion.div whileHover={{ scale: 1.1, rotate: -10 }} transition={{ type: "spring", stiffness: 300 }}>
               <Send size={20} className="-ml-1" />
             </motion.div>
