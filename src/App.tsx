@@ -37,7 +37,7 @@ const Nav: React.FC = () => {
     >
       <div className="flex justify-between items-center w-full px-4 sm:px-6 md:px-12 py-4 relative">
         <motion.a whileHover={{ scale: 1.05 }} href="#" className="flex items-center md:ml-10 lg:ml-16">
-          <img src="/logo.png?v=2" alt="Malibu Logo" className="h-10 sm:h-12 md:h-16 object-contain drop-shadow-md" />
+          <img src="/logo.webp" alt="Malibu Logo" className="h-10 sm:h-12 md:h-16 object-contain drop-shadow-md" width="128" height="64" />
         </motion.a>
 
         {/* Desktop Nav */}
@@ -149,7 +149,10 @@ const Hero = () => (
         transition={{ duration: 2, ease: "easeOut" }}
         alt="Tropical sunset beach bar"
         className="w-full h-full object-cover"
-        src="/back2.png"
+        src="/back2.webp"
+        fetchPriority="high"
+        width="1920"
+        height="1080"
       />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_20%,#0a0a0a_90%)] pointer-events-none"></div>
       <div className="absolute inset-0 bg-gradient-to-t from-surface via-transparent to-transparent pointer-events-none"></div>
@@ -211,8 +214,11 @@ const BentoGrid = () => (
           <img
             alt="Exotic tropical cocktail"
             className="absolute inset-0 w-full h-full object-cover opacity-60 transition-transform duration-700 group-hover:scale-105"
-            src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?q=80&w=1740&auto=format&fit=crop"
+            src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?q=80&w=800&auto=format&fit=crop&fm=webp"
             referrerPolicy="no-referrer"
+            loading="lazy"
+            width="800"
+            height="600"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-surface-container-lowest/90 via-transparent to-transparent"></div>
           <div className="absolute bottom-0 left-0 p-8">
@@ -230,7 +236,10 @@ const BentoGrid = () => (
           <img
             alt="Karaoke Microphone"
             className="absolute inset-0 w-full h-full object-cover opacity-50 transition-transform duration-700 group-hover:scale-105"
-            src="/karaoke.png"
+            src="/karaoke.webp"
+            loading="lazy"
+            width="800"
+            height="600"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-surface-container-lowest/90 via-[#0a0a0a]/40 to-transparent"></div>
           <div className="absolute top-6 right-6 text-primary/50 z-10 drop-shadow-md">
@@ -253,8 +262,11 @@ const BentoGrid = () => (
           <img
             alt="Bar Atmosphere"
             className="absolute inset-0 w-full h-full object-cover opacity-50 transition-transform duration-700 group-hover:scale-105"
-            src="https://images.unsplash.com/photo-1572116469696-31de0f17cc34?q=80&w=800&auto=format&fit=crop"
+            src="https://images.unsplash.com/photo-1572116469696-31de0f17cc34?q=80&w=800&auto=format&fit=crop&fm=webp"
             referrerPolicy="no-referrer"
+            loading="lazy"
+            width="800"
+            height="600"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-surface-container-lowest/90 via-[#0a0a0a]/40 to-transparent"></div>
           <div className="absolute top-6 right-6 text-secondary/50 z-10 drop-shadow-md">
@@ -333,7 +345,7 @@ const RestaurantMenu: React.FC = () => {
               className="flex items-center gap-4 p-4 ghost-border bg-surface-container-low hover:bg-surface-container transition-colors rounded-2xl group"
             >
               <div className="flex-shrink-0 w-20 h-20 sm:w-28 sm:h-28 overflow-hidden rounded-xl bg-surface">
-                <img src={item.image} alt={item.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-90" />
+                <img src={`${item.image}&fm=webp`} alt={item.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-90" loading="lazy" width="400" height="400" />
               </div>
               <div className="flex flex-col flex-grow justify-center py-1">
                 <div className="flex justify-between items-start gap-2 mb-1">
@@ -361,7 +373,7 @@ const Footer: React.FC = () => (
     <div className="flex flex-col md:flex-row justify-between items-start gap-12 max-w-7xl mx-auto mb-16">
       <div className="flex-1">
         <a href="#" className="inline-block mb-6">
-          <img src="/logo.png?v=2" alt="Malibu Logo" className="h-10 md:h-12 object-contain drop-shadow-md" />
+          <img src="/logo.webp" alt="Malibu Logo" className="h-10 md:h-12 object-contain drop-shadow-md" width="128" height="48" loading="lazy" />
         </a>
         <p className="text-stone-400 max-w-sm mb-6 leading-relaxed">
           © 2026 Malibu Karaoke Bar. Тропическая ночь ждет вас в каждом звуке.
