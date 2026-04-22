@@ -12,8 +12,10 @@ import {
   X,
   ShoppingBag,
   Sun,
-  Moon
+  Moon,
+  Globe
 } from "lucide-react";
+import { Language, getTranslation } from "./translations";
 
 // --- TypeScript Interfaces ---
 interface MenuItem {
@@ -25,7 +27,40 @@ interface MenuItem {
   readonly category: string;
 }
 
-const Nav: React.FC = () => {
+const LanguageSwitcher: React.FC<{ lang: Language; setLang: (l: Language) => void }> = ({ lang, setLang }) => {
+  return (
+    <div 
+      className="flex items-center bg-surface-container-low rounded-full p-1 border border-on-surface/5"
+      role="radiogroup"
+      aria-label="Select Language"
+    >
+      {(['ru', 'en'] as const).map((l) => (
+        <button
+          key={l}
+          onClick={() => {
+            if (!document.startViewTransition) {
+              setLang(l);
+              return;
+            }
+            document.startViewTransition(() => setLang(l));
+          }}
+          aria-checked={lang === l}
+          role="radio"
+          className={`
+            px-3 py-1 rounded-full text-xs font-bold transition-all duration-300
+            ${lang === l 
+              ? "bg-primary text-on-primary shadow-lg shadow-primary/20" 
+              : "text-on-surface-variant hover:text-on-surface"}
+          `}
+        >
+          {l.toUpperCase()}
+        </button>
+      ))}
+    </div>
+  );
+};
+
+const Nav: React.FC<{ t: any; lang: Language; setLang: (l: Language) => void }> = ({ t, lang, setLang }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isContactOpen, setIsContactOpen] = useState(false);
   const closeMenu = () => setIsOpen(false);
@@ -44,7 +79,7 @@ const Nav: React.FC = () => {
 
         {/* Desktop Nav */}
         <nav className="hidden md:flex flex-1 justify-center space-x-8 absolute left-1/2 -translate-x-1/2">
-          {['Главная', 'О нас', 'Меню'].map((item, i) => (
+          {[t('nav.home'), t('nav.about'), t('nav.menu')].map((item, i) => (
             <motion.a 
               key={item}
               whileHover={{ y: -2, color: 'var(--color-primary)' }}
@@ -58,17 +93,21 @@ const Nav: React.FC = () => {
         </nav>
 
         <div className="flex items-center gap-2 sm:gap-4">
+          <div className="hidden sm:block">
+            <LanguageSwitcher lang={lang} setLang={setLang} />
+          </div>
+
           {/* Contact Dropdown Integration */}
           <div className="relative" onMouseEnter={() => setIsContactOpen(true)} onMouseLeave={() => setIsContactOpen(false)}>
             <motion.button 
               onClick={() => setIsContactOpen(!isContactOpen)}
               whileHover={{ scale: 1.05, y: -2 }}
               whileTap={{ scale: 0.95 }}
-              aria-label="Связаться с нами"
+              aria-label={t('nav.contact')}
               aria-expanded={isContactOpen}
               className="flex bg-primary hover:bg-primary-container text-on-primary font-medium px-4 md:px-6 py-2 sm:py-2.5 rounded-xl transition-all items-center gap-2 ambient-shadow-primary text-sm md:text-base whitespace-nowrap hover-glow-primary"
             >
-              <Phone size={18} /> СВЯЗЬ
+              <Phone size={18} /> {t('nav.contact')}
             </motion.button>
 
             <AnimatePresence>
@@ -80,23 +119,23 @@ const Nav: React.FC = () => {
                   transition={{ duration: 0.2, type: "spring", stiffness: 200 }}
                   className="absolute right-0 mt-3 w-[260px] bg-surface/95 backdrop-blur-2xl border border-white/10 rounded-2xl p-2 shadow-2xl flex flex-col gap-1 z-[60]"
                 >
-                  <a href="https://wa.me/79220898090?text=Здравствуйте! Я хочу забронировать столик." target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 p-3 rounded-xl hover:bg-white/10 transition-colors group">
+                  <a href={`https://wa.me/79220898090?text=${encodeURIComponent(lang === 'ru' ? 'Здравствуйте! Я хочу забронировать столик.' : 'Hello! I would like to book a table.')}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 p-3 rounded-xl hover:bg-white/10 transition-colors group">
                     <div className="w-10 h-10 shrink-0 rounded-full bg-primary/10 text-primary flex items-center justify-center group-hover:scale-110 group-hover:bg-primary/20 transition-all">
                       <Wine size={18} />
                     </div>
                     <div className="flex flex-col">
-                      <span className="text-on-surface text-sm font-medium">Резерв столика</span>
-                      <span className="text-on-surface-variant text-xs mt-0.5">Ежедневно с 11:00</span>
+                      <span className="text-on-surface text-sm font-medium">{t('nav.reserve')}</span>
+                      <span className="text-on-surface-variant text-xs mt-0.5">{t('nav.reserveNote')}</span>
                     </div>
                   </a>
                   
-                  <a href="https://wa.me/79642090707?text=Здравствуйте! Я хочу сделать заказ на доставку." target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 p-3 rounded-xl hover:bg-white/10 transition-colors group">
+                  <a href={`https://wa.me/79642090707?text=${encodeURIComponent(lang === 'ru' ? 'Здравствуйте! Я хочу сделать заказ на доставку.' : 'Hello! I would like to place an order for delivery.')}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 p-3 rounded-xl hover:bg-white/10 transition-colors group">
                     <div className="w-10 h-10 shrink-0 rounded-full bg-green-500/10 text-green-400 flex items-center justify-center group-hover:scale-110 group-hover:bg-green-500/20 transition-all">
                       <ShoppingBag size={18} />
                     </div>
                     <div className="flex flex-col">
-                      <span className="text-on-surface text-sm font-medium">Заказ & Доставка</span>
-                      <span className="text-on-surface-variant text-xs mt-0.5">Напишите нам для заказа</span>
+                      <span className="text-on-surface text-sm font-medium">{t('nav.delivery')}</span>
+                      <span className="text-on-surface-variant text-xs mt-0.5">{t('nav.deliveryNote')}</span>
                     </div>
                   </a>
                 </motion.div>
@@ -123,26 +162,30 @@ const Nav: React.FC = () => {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-surface/95 border-t border-white/5 overflow-hidden backdrop-blur-xl"
+            className="md:hidden bg-surface/95 border-t border-on-surface/10 overflow-hidden backdrop-blur-xl"
           >
             <nav className="flex flex-col items-center py-6 space-y-6">
               <a href="#hero" onClick={(e) => {
                 e.preventDefault();
                 closeMenu();
                 setTimeout(() => document.getElementById('hero')?.scrollIntoView({ behavior: 'smooth' }), 300);
-              }} className="text-on-surface-variant hover:text-primary transition-colors text-lg">Главная</a>
+              }} className="text-on-surface-variant hover:text-primary transition-colors text-lg">{t('nav.home')}</a>
               
               <a href="#about" onClick={(e) => {
                 e.preventDefault();
                 closeMenu();
                 setTimeout(() => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' }), 300);
-              }} className="text-on-surface-variant hover:text-primary transition-colors text-lg">О нас</a>
+              }} className="text-on-surface-variant hover:text-primary transition-colors text-lg">{t('nav.about')}</a>
               
               <a href="#menu" onClick={(e) => {
                 e.preventDefault();
                 closeMenu();
                 setTimeout(() => document.getElementById('menu')?.scrollIntoView({ behavior: 'smooth' }), 300);
-              }} className="text-on-surface-variant hover:text-primary transition-colors text-lg">Меню</a>
+              }} className="text-on-surface-variant hover:text-primary transition-colors text-lg">{t('nav.menu')}</a>
+
+              <div className="pt-4 border-t border-on-surface/10 w-full flex justify-center">
+                <LanguageSwitcher lang={lang} setLang={setLang} />
+              </div>
             </nav>
           </motion.div>
         )}
@@ -153,7 +196,7 @@ const Nav: React.FC = () => {
 
 // Removed Framer Motion variants for Hero to use CSS instead for instant LCP
 
-const Hero = () => (
+const Hero: React.FC<{ t: any; lang: Language }> = ({ t, lang }) => (
   <section id="hero" className="relative min-h-[90vh] flex items-center justify-center px-6 py-20 overflow-hidden">
     <div className="absolute inset-0 z-0 bg-surface">
       {/* Absolute exact image from your screenshot, full cover */}
@@ -170,13 +213,13 @@ const Hero = () => (
     </div>
 
     <div className="relative z-10 text-center max-w-4xl mx-auto flex flex-col items-center mt-12">
-      <span className="text-primary font-body uppercase tracking-[0.3em] text-sm mb-6 opacity-0 animate-fade-in-up" style={{ animationDelay: '100ms' }}>ОТКРЫТИЕ СЕЗОНА</span>
+      <span className="text-primary font-body uppercase tracking-[0.3em] text-sm mb-6 opacity-0 animate-fade-in-up" style={{ animationDelay: '100ms' }}>{t('hero.subtitle')}</span>
       <h1 className="font-headline text-5xl md:text-7xl lg:text-8xl text-on-surface mb-6 tracking-tight leading-[1.1] opacity-0 animate-fade-in-up" style={{ animationDelay: '200ms' }}>
-        Караоке-бар <br />
-        <span className="text-primary italic font-light">с атмосферой вечера</span>
+        {t('hero.title1')} <br />
+        <span className="text-primary italic font-light">{t('hero.title2')}</span>
       </h1>
       <p className="text-on-surface-variant text-lg md:text-xl max-w-2xl mb-12 font-light leading-relaxed opacity-0 animate-fade-in-up" style={{ animationDelay: '300ms' }}>
-        Профессиональный звук, авторские коктейли и стильный интерьер. Погрузитесь в магию вечера и насладитесь отдыхом в кругу друзей.
+        {t('hero.description')}
       </p>
       <div className="flex flex-col sm:flex-row gap-6 justify-center w-full sm:w-auto opacity-0 animate-fade-in-up" style={{ animationDelay: '400ms' }}>
         <motion.a 
@@ -185,29 +228,29 @@ const Hero = () => (
           href="#menu" 
           className="bg-primary hover:bg-primary-container text-on-primary font-bold px-8 py-4 rounded-xl transition-all duration-300 text-lg shadow-lg shadow-primary/20 text-center hover-glow-primary"
         >
-          Посмотреть меню
+          {t('hero.viewMenu')}
         </motion.a>
         <motion.a
           whileHover={{ scale: 1.05, y: -5, backgroundColor: 'var(--surface-bright)' }}
           whileTap={{ scale: 0.95 }}
-          href="https://wa.me/79220898090?text=Здравствуйте! Я хочу забронировать столик."
+          href={`https://wa.me/79220898090?text=${encodeURIComponent(lang === 'ru' ? 'Здравствуйте! Я хочу забронировать столик.' : 'Hello! I would like to book a table.')}`}
           target="_blank"
           rel="noopener noreferrer"
           className="glass-panel text-primary border border-primary/30 px-8 py-4 rounded-xl transition-all duration-300 text-lg flex items-center justify-center gap-2"
         >
-          Забронировать столик
+          {t('hero.bookTable')}
         </motion.a>
       </div>
     </div>
   </section>
 );
 
-const BentoGrid = () => (
+const BentoGrid: React.FC<{ t: any }> = ({ t }) => (
   <section id="about" className="py-24 px-6 relative">
     <div className="max-w-7xl mx-auto">
       <div className="mb-16 md:w-2/3">
-        <h2 className="font-headline text-4xl md:text-5xl text-on-surface mb-4 tracking-tight">Ритм Тропиков</h2>
-        <p className="text-on-surface-variant text-lg">Каждая деталь нашего бара создана для вашего идеального отдыха. От кристально чистого звучания до уникальной эстетики ночных джунглей.</p>
+        <h2 className="font-headline text-4xl md:text-5xl text-on-surface mb-4 tracking-tight">{t('about.title')}</h2>
+        <p className="text-on-surface-variant text-lg">{t('about.description')}</p>
       </div>
 
       <motion.div 
@@ -234,8 +277,8 @@ const BentoGrid = () => (
           />
           <div className="absolute inset-0 bg-gradient-to-t from-surface-container-lowest/90 via-transparent to-transparent"></div>
           <div className="absolute bottom-0 left-0 p-8">
-            <h3 className="font-headline text-3xl text-on-surface mb-3">Экзотические Коктейли</h3>
-            <p className="text-on-surface-variant max-w-md">Авторские миксы из свежих фруктов и премиального алкоголя от нашего шеф-бармена.</p>
+            <h3 className="font-headline text-3xl text-on-surface mb-3">{t('about.cocktailsTitle')}</h3>
+            <p className="text-on-surface-variant max-w-md">{t('about.cocktailsDesc')}</p>
           </div>
         </motion.div>
 
@@ -260,8 +303,8 @@ const BentoGrid = () => (
             </motion.div>
           </div>
           <div className="relative z-10 p-8">
-            <h3 className="font-headline text-2xl text-on-surface mb-2">Звук</h3>
-            <p className="text-on-surface-variant text-sm">Идеальная акустика и новые хиты.</p>
+            <h3 className="font-headline text-2xl text-on-surface mb-2">{t('about.soundTitle')}</h3>
+            <p className="text-on-surface-variant text-sm">{t('about.soundDesc')}</p>
           </div>
         </motion.div>
 
@@ -287,8 +330,8 @@ const BentoGrid = () => (
             </motion.div>
           </div>
           <div className="relative z-10 p-8">
-            <h3 className="font-headline text-2xl text-on-surface mb-2">Атмосфера</h3>
-            <p className="text-on-surface-variant text-sm">Янтарный свет и неповторимый вайб.</p>
+            <h3 className="font-headline text-2xl text-on-surface mb-2">{t('about.atmosphereTitle')}</h3>
+            <p className="text-on-surface-variant text-sm">{t('about.atmosphereDesc')}</p>
           </div>
         </motion.div>
 
@@ -299,7 +342,11 @@ const BentoGrid = () => (
 );
 
 // --- Меню Данные ---
-const MENU_CATEGORIES = ["Коктейли", "Закуски", "Кальян"];
+const MENU_CATEGORIES = (t: any) => [
+  t('menu.categories.cocktails'), 
+  t('menu.categories.snacks'), 
+  t('menu.categories.hookah')
+];
 
 const MENU_ITEMS: readonly MenuItem[] = [
   { id: 1, name: "Тропический Шторм", description: "Свежий микс манго, маракуйи и рома.", price: "1250 ₽", image: "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?q=80&w=400", category: "Коктейли" },
@@ -310,9 +357,27 @@ const MENU_ITEMS: readonly MenuItem[] = [
   { id: 6, name: "Тропический Дым", description: "Премиум табак с нотками ананаса.", price: "2500 ₽", image: "https://images.unsplash.com/photo-1520262454473-a1a82276a574?q=80&w=400", category: "Кальян" }
 ] as const;
 
-const RestaurantMenu: React.FC = () => {
-  const [activeCategory, setActiveCategory] = useState(MENU_CATEGORIES[0]);
-  const filteredItems = MENU_ITEMS.filter(item => item.category === activeCategory);
+const RestaurantMenu: React.FC<{ t: any }> = ({ t }) => {
+  const categories = MENU_CATEGORIES(t);
+  const [activeCategory, setActiveCategory] = useState(categories[0]);
+  
+  // Track current category index to handle language changes
+  useEffect(() => {
+    // If language changes, make sure we still have a valid active category
+    if (!categories.includes(activeCategory)) {
+      setActiveCategory(categories[0]);
+    }
+  }, [t]);
+
+  const filteredItems = MENU_ITEMS.filter(item => {
+    // Check if the current translated category matches the item source category's translation
+    const ruCategory = item.category;
+    let fallbackKey = 'cocktails';
+    if (ruCategory === 'Закуски') fallbackKey = 'snacks';
+    if (ruCategory === 'Кальян') fallbackKey = 'hookah';
+    
+    return t(`menu.categories.${fallbackKey}`) === activeCategory;
+  });
 
   return (
     <motion.section 
@@ -324,14 +389,14 @@ const RestaurantMenu: React.FC = () => {
       className="py-24 px-6 relative max-w-7xl mx-auto"
     >
       <div className="mb-12 text-center md:text-left">
-        <h2 className="font-headline text-4xl text-on-surface mb-4 tracking-tight">Наше Меню</h2>
+        <h2 className="font-headline text-4xl text-on-surface mb-4 tracking-tight">{t('menu.title')}</h2>
         <p className="text-on-surface-variant text-lg max-w-2xl">
-          Стильные миксы, легкие закуски и густой дым.
+          {t('menu.subtitle')}
         </p>
       </div>
 
       <div className="flex space-x-6 overflow-x-auto pb-4 mb-10 w-full no-scrollbar">
-        {MENU_CATEGORIES.map(category => (
+        {categories.map(category => (
           <button
             key={category}
             onClick={() => setActiveCategory(category)}
@@ -351,20 +416,24 @@ const RestaurantMenu: React.FC = () => {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
-              whileHover={{ x: 8, backgroundColor: 'var(--surface-container)' }}
+              whileHover={{ x: 8 }}
               transition={{ duration: 0.2 }}
               key={item.id}
-              className="flex items-center gap-4 p-4 ghost-border bg-surface-container-low transition-all rounded-2xl group cursor-pointer"
+              className="flex items-center gap-4 p-4 ghost-border bg-surface-container-low hover:bg-surface-container transition-all duration-300 rounded-2xl group cursor-pointer"
             >
               <div className="flex-shrink-0 w-20 h-20 sm:w-28 sm:h-28 overflow-hidden rounded-xl bg-surface">
                 <img src={`${item.image}&fm=webp`} alt={item.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-90" loading="lazy" width="400" height="400" />
               </div>
-              <div className="flex flex-col flex-grow justify-center py-1">
+               <div className="flex flex-col flex-grow justify-center py-1">
                 <div className="flex justify-between items-start gap-2 mb-1">
-                  <h3 className="font-headline text-lg sm:text-xl text-on-surface leading-tight">{item.name}</h3>
+                  <h3 className="font-headline text-lg sm:text-xl text-on-surface leading-tight">
+                    {t(`menu.items.${item.name}.name`)}
+                  </h3>
                   <span className="text-primary font-headline text-lg sm:text-xl whitespace-nowrap">{item.price}</span>
                 </div>
-                <p className="text-on-surface-variant text-sm sm:text-base font-light leading-snug line-clamp-2">{item.description}</p>
+                <p className="text-on-surface-variant text-sm sm:text-base font-light leading-snug line-clamp-2">
+                  {t(`menu.items.${item.name}.description`)}
+                </p>
               </div>
             </motion.div>
           ))}
@@ -374,7 +443,7 @@ const RestaurantMenu: React.FC = () => {
   );
 };
 
-const Footer: React.FC = () => (
+const Footer: React.FC<{ t: any }> = ({ t }) => (
   <motion.footer 
     initial="hidden" 
     whileInView="visible" 
@@ -382,38 +451,38 @@ const Footer: React.FC = () => (
     variants={{ hidden: { opacity: 0 }, visible: { opacity: 1, transition: { staggerChildren: 0.2 } } }} 
     className="w-full pt-20 pb-10 px-8 rounded-t-[32px] bg-surface-dim relative z-10"
   >
-    <div className="flex flex-col md:flex-row justify-between items-center md:items-start gap-12 max-w-7xl mx-auto mb-16 text-center md:text-left">
-      <div className="flex-1 flex flex-col items-center md:items-start">
-        <div className="flex justify-center md:justify-start mb-6">
-          <a href="#" className="block">
-            <img src="/logo.webp" alt="Malibu Logo" className="h-[70px] md:h-[90px] w-auto object-contain drop-shadow-md origin-center md:origin-left hover:scale-105 transition-all" loading="lazy" />
+    <div className="flex flex-col md:flex-row justify-between items-start gap-12 max-w-7xl mx-auto mb-16 text-left">
+      <div className="flex-1" style={{ textAlign: 'left', display: 'block' }}>
+        <div className="mb-6" style={{ textAlign: 'left' }}>
+          <a href="#" className="inline-block">
+            <img src="/logo.webp" alt="Malibu Logo" className="h-[70px] md:h-[90px] w-auto object-contain drop-shadow-md origin-left hover:scale-105 transition-all" style={{ display: 'block', marginLeft: '-195px' }} loading="lazy" />
           </a>
         </div>
-        <p className="text-on-surface-variant max-w-sm mb-6 leading-relaxed">
-          © 2026 Malibu Karaoke Bar. Тропическая ночь ждет вас в каждом звуке.
+        <p className="text-on-surface-variant max-w-sm mb-6 leading-relaxed" style={{ textAlign: 'left', marginLeft: '0', display: 'block' }}>
+          {t('footer.tagline')}
         </p>
-        <div className="flex flex-col space-y-2 items-center md:items-start">
-          <div className="flex items-center gap-2 text-on-surface text-sm">
+        <div className="flex flex-col space-y-2" style={{ alignItems: 'flex-start', textAlign: 'left' }}>
+          <div className="flex items-center gap-2 text-on-surface text-sm" style={{ justifyContent: 'flex-start' }}>
             <Phone size={16} className="text-on-surface-variant" /> 
-            <span className="text-on-surface-variant">Резерв:</span>
+            <span className="text-on-surface-variant">{t('footer.reserve')}</span>
             <a href="tel:+79220898090" className="hover:text-primary transition-colors">+7 922 089-80-90</a>
           </div>
-          <div className="flex items-center gap-2 text-on-surface text-sm">
+          <div className="flex items-center gap-2 text-on-surface text-sm" style={{ justifyContent: 'flex-start' }}>
             <Phone size={16} className="text-on-surface-variant" /> 
-            <span className="text-on-surface-variant">Доставка:</span>
+            <span className="text-on-surface-variant">{t('footer.delivery')}</span>
             <a href="tel:+79642090707" className="hover:text-primary transition-colors">+7 964 209-07-07</a>
           </div>
-          <a href="https://2gis.ru/n_urengoy/firm/70000001109629339" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-on-surface hover:text-primary transition-colors group mt-2">
+          <a href="https://2gis.ru/n_urengoy/firm/70000001109629339" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-on-surface hover:text-primary transition-colors group mt-2" style={{ justifyContent: 'flex-start' }}>
             <motion.div whileHover={{ y: -5 }} transition={{ type: "spring", stiffness: 300 }} className="text-on-surface-variant group-hover:text-primary">
               <MapPin size={16} />
             </motion.div>
-            <span>Северная коммунальная зона, 7</span>
+            <span>{t('footer.address')}</span>
           </a>
         </div>
       </div>
 
       <div className="flex flex-col items-center md:items-end">
-        <h4 className="font-headline text-lg text-primary mb-6">Социальные сети</h4>
+        <h4 className="font-headline text-lg text-primary mb-6">{t('footer.socials')}</h4>
         <div className="flex gap-4">
           <motion.a 
             whileHover={{ scale: 1.1, rotate: 5, backgroundColor: 'var(--color-primary)', color: 'var(--color-on-primary)' }} 
@@ -439,9 +508,17 @@ const Footer: React.FC = () => (
 );
 
 export default function App() {
+  const [lang, setLang] = useState<Language>(() => (localStorage.getItem('lang') as Language) || 'ru');
+  const t = (path: string) => getTranslation(lang, path);
+
   const [theme, setTheme] = useState(() => {
     return localStorage.getItem('theme') || 'dark';
   });
+
+  useEffect(() => {
+    localStorage.setItem('lang', lang);
+    document.documentElement.lang = lang;
+  }, [lang]);
 
   useEffect(() => {
     if (theme === 'light') {
@@ -465,13 +542,13 @@ export default function App() {
   return (
     <div className="relative min-h-screen bg-surface">
       <div className="wood-texture-overlay z-0 opacity-5" />
-      <Nav />
+      <Nav t={t} lang={lang} setLang={setLang} />
       
       {/* Theme Toggle Button */}
       <button 
         onClick={toggleTheme}
-        aria-label={theme === 'dark' ? 'Светлый режим' : 'Тёмный режим'}
-        title={theme === 'dark' ? 'Светлый режим' : 'Тёмный режим'}
+        aria-label={theme === 'dark' ? t('common.lightMode') : t('common.darkMode')}
+        title={theme === 'dark' ? t('common.lightMode') : t('common.darkMode')}
         className="fixed bottom-6 right-6 z-[100] w-14 h-14 bg-surface-container hover:bg-surface-container-high text-primary rounded-full shadow-2xl flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95 ambient-shadow-primary border border-primary/20"
       >
         <motion.div
@@ -485,11 +562,11 @@ export default function App() {
       </button>
 
       <main className="relative z-10 w-full flex-grow transition-colors duration-500 text-on-surface">
-        <Hero />
-        <BentoGrid />
-        <RestaurantMenu />
+        <Hero t={t} lang={lang} />
+        <BentoGrid t={t} />
+        <RestaurantMenu t={t} />
       </main>
-      <Footer />
+      <Footer t={t} />
     </div>
   );
 }
