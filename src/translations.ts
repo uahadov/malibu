@@ -33,24 +33,37 @@ export const translations = {
     menu: {
       title: "Наше Меню",
       subtitle: "Стильные миксы, легкие закуски и густой дым.",
+      viewAll: "Посмотреть все меню",
       categories: {
         cocktails: "Коктейли",
         snacks: "Закуски",
         hookah: "Кальян",
       },
       items: {
-        "Тропический Шторм": {
-          name: "Тропический Шторм",
-          description: "Свежий микс манго, маракуйи и рома."
+        "Белый русский": {
+          name: "Белый русский",
+          description: "x"
         },
-        "Неоновый Закат": {
-          name: "Неоновый Закат",
-          description: "Классический Апероль с грейпфрутом."
+        "Лонг айленд": {
+          name: "Лонг айленд",
+          description: "x"
         },
-        "Полуночный Оазис": {
-          name: "Полуночный Оазис",
-          description: "Джин, свежий огурец, биттер."
+        "Мохито": {
+          name: "Мохито",
+          description: "x"
         },
+        "Виски кола": { name: "Виски кола", description: "x" },
+        "Джин тоник": { name: "Джин тоник", description: "x" },
+        "Текила санрайз": { name: "Текила санрайз", description: "x" },
+        "Голубая лагуна": { name: "Голубая лагуна", description: "x" },
+        "Май тай": { name: "Май тай", description: "x" },
+        "Куба либре": { name: "Куба либре", description: "x" },
+        "Апероль шприц": { name: "Апероль шприц", description: "x" },
+        "Пина колада": { name: "Пина колада", description: "x" },
+        "Секс на пляже": { name: "Секс на пляже", description: "x" },
+        "Отвертка": { name: "Отвертка", description: "x" },
+        "Мартини фиеро тоник": { name: "Мартини фиеро тоник", description: "x" },
+        "Малибу": { name: "Малибу", description: "x" },
         "Ассорти Брускетт": {
           name: "Ассорти Брускетт",
           description: "Хрустящий багет с лососем и томатами."
@@ -109,24 +122,37 @@ export const translations = {
     menu: {
       title: "Our Menu",
       subtitle: "Stylish mixes, light snacks, and thick smoke.",
+      viewAll: "View Full Menu",
       categories: {
         cocktails: "Cocktails",
         snacks: "Snacks",
         hookah: "Hookah",
       },
       items: {
-        "Тропический Шторм": {
-          name: "Tropical Storm",
-          description: "A fresh blend of mango, passion fruit, and rum."
+        "Белый русский": {
+          name: "White Russian",
+          description: "x"
         },
-        "Неоновый Закат": {
-          name: "Neon Sunset",
-          description: "Classic Aperol with grapefruit."
+        "Лонг айленд": {
+          name: "Long Island",
+          description: "x"
         },
-        "Полуночный Оазис": {
-          name: "Midnight Oasis",
-          description: "Gin, fresh cucumber, bitters."
+        "Мохито": {
+          name: "Mojito",
+          description: "x"
         },
+        "Виски кола": { name: "Whiskey Cola", description: "x" },
+        "Джин тоник": { name: "Gin Tonic", description: "x" },
+        "Текила санрайз": { name: "Tequila Sunrise", description: "x" },
+        "Голубая лагуна": { name: "Blue Lagoon", description: "x" },
+        "Май тай": { name: "Mai Tai", description: "x" },
+        "Куба либре": { name: "Cuba Libre", description: "x" },
+        "Апероль шприц": { name: "Aperol Spritz", description: "x" },
+        "Пина колада": { name: "Piña Colada", description: "x" },
+        "Секс на пляже": { name: "Sex on the Beach", description: "x" },
+        "Отвертка": { name: "Screwdriver", description: "x" },
+        "Мартини фиеро тоник": { name: "Martini Fiero Tonic", description: "x" },
+        "Малибу": { name: "Malibu", description: "x" },
         "Ассорти Брускетт": {
           name: "Bruschetta Platter",
           description: "Crispy baguette with salmon and tomatoes."

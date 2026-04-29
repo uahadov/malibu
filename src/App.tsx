@@ -1,3 +1,4 @@
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import { motion, AnimatePresence } from "motion/react";
 import { useState, useEffect } from "react";
 import {
@@ -85,7 +86,7 @@ const Nav: React.FC<{ t: any; lang: Language; setLang: (l: Language) => void }> 
               whileHover={{ y: -2, color: 'var(--color-primary)' }}
               transition={{ type: "spring", stiffness: 400, damping: 10 }}
               className="text-on-surface-variant transition-colors duration-300 text-sm tracking-wide" 
-              href={['#hero', '#about', '#menu'][i]}
+              href={['/#hero', '/#about', '/#menu'][i]}
             >
               {item}
             </motion.a>
@@ -165,19 +166,19 @@ const Nav: React.FC<{ t: any; lang: Language; setLang: (l: Language) => void }> 
             className="md:hidden bg-surface/95 border-t border-on-surface/10 overflow-hidden backdrop-blur-xl"
           >
             <nav className="flex flex-col items-center py-6 space-y-6">
-              <a href="#hero" onClick={(e) => {
+              <a href="/#hero" onClick={(e) => {
                 e.preventDefault();
                 closeMenu();
                 setTimeout(() => document.getElementById('hero')?.scrollIntoView({ behavior: 'smooth' }), 300);
               }} className="text-on-surface-variant hover:text-primary transition-colors text-lg">{t('nav.home')}</a>
               
-              <a href="#about" onClick={(e) => {
+              <a href="/#about" onClick={(e) => {
                 e.preventDefault();
                 closeMenu();
                 setTimeout(() => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' }), 300);
               }} className="text-on-surface-variant hover:text-primary transition-colors text-lg">{t('nav.about')}</a>
               
-              <a href="#menu" onClick={(e) => {
+              <a href="/#menu" onClick={(e) => {
                 e.preventDefault();
                 closeMenu();
                 setTimeout(() => document.getElementById('menu')?.scrollIntoView({ behavior: 'smooth' }), 300);
@@ -225,7 +226,7 @@ const Hero: React.FC<{ t: any; lang: Language }> = ({ t, lang }) => (
         <motion.a 
           whileHover={{ scale: 1.05, y: -5 }}
           whileTap={{ scale: 0.95 }}
-          href="#menu" 
+          href="/#menu" 
           className="bg-primary hover:bg-primary-container text-on-primary font-bold px-8 py-4 rounded-xl transition-all duration-300 text-lg shadow-lg shadow-primary/20 text-center hover-glow-primary"
         >
           {t('hero.viewMenu')}
@@ -349,15 +350,27 @@ const MENU_CATEGORIES = (t: any) => [
 ];
 
 const MENU_ITEMS: readonly MenuItem[] = [
-  { id: 1, name: "Тропический Шторм", description: "Свежий микс манго, маракуйи и рома.", price: "1250 ₽", image: "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?q=80&w=400", category: "Коктейли" },
-  { id: 2, name: "Неоновый Закат", description: "Классический Апероль с грейпфрутом.", price: "950 ₽", image: "https://images.unsplash.com/photo-1556679343-c7306c1976bc?q=80&w=400", category: "Коктейли" },
-  { id: 3, name: "Полуночный Оазис", description: "Джин, свежий огурец, биттер.", price: "1100 ₽", image: "https://images.unsplash.com/photo-1575037614876-c385cc82db67?q=80&w=400", category: "Коктейли" },
-  { id: 4, name: "Ассорти Брускетт", description: "Хрустящий багет с лососем и томатами.", price: "850 ₽", image: "https://images.unsplash.com/photo-1572695157366-5e585ab2b69f?q=80&w=400", category: "Закуски" },
-  { id: 5, name: "Сырное Плато", description: "Премиальные сыры с медом.", price: "1800 ₽", image: "https://images.unsplash.com/photo-1631379578201-1cbda8b0e7cb?q=80&w=400", category: "Закуски" },
-  { id: 6, name: "Тропический Дым", description: "Премиум табак с нотками ананаса.", price: "2500 ₽", image: "https://images.unsplash.com/photo-1520262454473-a1a82276a574?q=80&w=400", category: "Кальян" }
+  { id: 1, name: "Белый русский", description: "x", price: "600 ₽", image: "/1.webp", category: "Коктейли" },
+  { id: 2, name: "Лонг айленд", description: "x", price: "850 ₽", image: "/2.webp", category: "Коктейли" },
+  { id: 3, name: "Мохито", description: "x", price: "600 ₽", image: "/3.webp", category: "Коктейли" },
+  { id: 4, name: "Виски кола", description: "x", price: "600 ₽", image: "/4-k.webp", category: "Коктейли" },
+  { id: 5, name: "Джин тоник", description: "x", price: "600 ₽", image: "/5.webp", category: "Коктейли" },
+  { id: 6, name: "Текила санрайз", description: "x", price: "600 ₽", image: "/6.webp", category: "Коктейли" },
+  { id: 7, name: "Голубая лагуна", description: "x", price: "500 ₽", image: "/7.webp", category: "Коктейли" },
+  { id: 8, name: "Май тай", description: "x", price: "600 ₽", image: "/8.webp", category: "Коктейли" },
+  { id: 9, name: "Куба либре", description: "x", price: "500 ₽", image: "/9.webp", category: "Коктейли" },
+  { id: 10, name: "Апероль шприц", description: "x", price: "700 ₽", image: "/10.webp", category: "Коктейли" },
+  { id: 14, name: "Пина колада", description: "x", price: "600 ₽", image: "/11.jpg", category: "Коктейли" },
+  { id: 15, name: "Секс на пляже", description: "x", price: "600 ₽", image: "/12.jpg", category: "Коктейли" },
+  { id: 16, name: "Отвертка", description: "x", price: "500 ₽", image: "/13.jpg", category: "Коктейли" },
+  { id: 17, name: "Мартини фиеро тоник", description: "x", price: "600 ₽", image: "/14.jpg", category: "Коктейли" },
+  { id: 18, name: "Малибу", description: "x", price: "900 ₽", image: "/15.jpg", category: "Коктейли" },
+  { id: 11, name: "Ассорти Брускетт", description: "Хрустящий багет с лососем и томатами.", price: "850 ₽", image: "https://images.unsplash.com/photo-1572695157366-5e585ab2b69f?q=80&w=400", category: "Закуски" },
+  { id: 12, name: "Сырное Плато", description: "Премиальные сыры с медом.", price: "1800 ₽", image: "https://images.unsplash.com/photo-1631379578201-1cbda8b0e7cb?q=80&w=400", category: "Закуски" },
+  { id: 13, name: "Тропический Дым", description: "Премиум табак с нотками ананаса.", price: "2500 ₽", image: "https://images.unsplash.com/photo-1520262454473-a1a82276a574?q=80&w=400", category: "Кальян" }
 ] as const;
 
-const RestaurantMenu: React.FC<{ t: any }> = ({ t }) => {
+const RestaurantMenu: React.FC<{ t: any; limit?: number }> = ({ t, limit }) => {
   const categories = MENU_CATEGORIES(t);
   const [activeCategory, setActiveCategory] = useState(categories[0]);
   
@@ -410,7 +423,7 @@ const RestaurantMenu: React.FC<{ t: any }> = ({ t }) => {
 
       <motion.div layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
         <AnimatePresence mode="popLayout">
-          {filteredItems.map(item => (
+          {(limit ? filteredItems.slice(0, limit) : filteredItems).map(item => (
             <motion.div
               layout
               initial={{ opacity: 0, scale: 0.95 }}
@@ -421,8 +434,8 @@ const RestaurantMenu: React.FC<{ t: any }> = ({ t }) => {
               key={item.id}
               className="flex items-center gap-4 p-4 ghost-border bg-surface-container-low hover:bg-surface-container transition-all duration-300 rounded-2xl group cursor-pointer"
             >
-              <div className="flex-shrink-0 w-20 h-20 sm:w-28 sm:h-28 overflow-hidden rounded-xl bg-surface">
-                <img src={`${item.image}&fm=webp`} alt={item.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-90" loading="lazy" width="400" height="400" />
+              <div className="flex-shrink-0 w-20 h-28 sm:w-24 sm:h-32 overflow-hidden rounded-xl bg-surface">
+                <img src={item.image.includes('unsplash') ? `${item.image}&fm=webp` : item.image} alt={item.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-90" loading="lazy" width="400" height="400" />
               </div>
                <div className="flex flex-col flex-grow justify-center py-1">
                 <div className="flex justify-between items-start gap-2 mb-1">
@@ -439,6 +452,14 @@ const RestaurantMenu: React.FC<{ t: any }> = ({ t }) => {
           ))}
         </AnimatePresence>
       </motion.div>
+
+      {limit && filteredItems.length > limit && (
+        <div className="mt-12 flex justify-center">
+          <Link to="/menu" className="glass-panel text-primary border border-primary/30 px-8 py-4 rounded-xl transition-all duration-300 text-lg flex items-center justify-center gap-2 hover:bg-primary-container hover:text-on-primary">
+            {t('menu.viewAll')}
+          </Link>
+        </div>
+      )}
     </motion.section>
   );
 };
@@ -507,7 +528,35 @@ const Footer: React.FC<{ t: any }> = ({ t }) => (
   </motion.footer>
 );
 
+
+const HomePage = ({ t, lang }: { t: any; lang: Language }) => (
+  <>
+    <Hero t={t} lang={lang} />
+    <BentoGrid t={t} />
+    <RestaurantMenu t={t} limit={6} />
+  </>
+);
+
+const MenuPage = ({ t }: { t: any }) => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+  return (
+    <div className="pt-24 min-h-screen">
+      <RestaurantMenu t={t} />
+    </div>
+  );
+};
+
 export default function App() {
+  return (
+    <Router>
+      <AppContent />
+    </Router>
+  );
+}
+
+function AppContent() {
   const [lang, setLang] = useState<Language>(() => (localStorage.getItem('lang') as Language) || 'ru');
   const t = (path: string) => getTranslation(lang, path);
 
@@ -562,9 +611,10 @@ export default function App() {
       </button>
 
       <main className="relative z-10 w-full flex-grow transition-colors duration-500 text-on-surface">
-        <Hero t={t} lang={lang} />
-        <BentoGrid t={t} />
-        <RestaurantMenu t={t} />
+        <Routes>
+          <Route path="/" element={<HomePage t={t} lang={lang} />} />
+          <Route path="/menu" element={<MenuPage t={t} />} />
+        </Routes>
       </main>
       <Footer t={t} />
     </div>
