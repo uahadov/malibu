@@ -55,8 +55,8 @@ A sleek, modern landing page designed for **Malibu Karaoke & Lounge Bar**, built
 
 ### 1. Clone the repository
 ```bash
-git clone https://github.com/uahadov/malibu.git
-cd malibu
+git clone https://github.com/uahadov/malibu-landing-page.git
+cd malibu-landing-page
 ```
 
 ### 2. Install dependencies
